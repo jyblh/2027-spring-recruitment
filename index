@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2027 北科大春季徵才｜企業專區</title>
+<meta name="description" content="2027 國立臺北科技大學春季徵才系列活動企業專區">
+<style>
+:root{
+  --aqua:#96dfe2;
+  --mint:#d8efb0;
+  --lime:#a9ce3c;
+  --yellow:#f5dd53;
+  --green:#2d743d;
+  --deep:#1e5730;
+  --ink:#294832;
+  --muted:#718174;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:28px;
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 16% 10%,rgba(255,255,255,.72),transparent 24%),
+    radial-gradient(circle at 84% 16%,rgba(255,240,130,.55),transparent 22%),
+    linear-gradient(145deg,var(--aqua),#d8edaf 44%,#fff0a0 76%,#a9dfdf);
+}
+.card{
+  width:min(620px,100%);
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(255,255,255,.86);
+  border-radius:28px;
+  padding:38px 30px;
+  text-align:center;
+  box-shadow:0 22px 65px rgba(30,87,48,.14);
+}
+.brand{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.08em;
+  color:var(--green);
+  margin-bottom:22px;
+}
+.loader{
+  width:72px;
+  height:72px;
+  margin:0 auto 22px;
+  border-radius:50%;
+  border:8px solid rgba(45,116,61,.12);
+  border-top-color:var(--green);
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+h1{
+  margin:0 0 10px;
+  font-size:34px;
+  letter-spacing:-.03em;
+}
+p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.8;
+}
+.links{
+  display:none;
+  margin-top:22px;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.links.show{display:flex}
+a{
+  text-decoration:none;
+  padding:12px 16px;
+  border-radius:12px;
+  background:var(--green);
+  color:#fff;
+  font-weight:900;
+}
+small{
+  display:block;
+  margin-top:22px;
+  color:#7b887e;
+  line-height:1.6;
+}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="brand">2027 春季徵才｜企業專區</div>
+  <div class="loader" aria-hidden="true"></div>
+  <h1>正在前往活動頁面</h1>
+  <p id="message">系統正在依目前時間判斷企業報名階段，請稍候。</p>
+
+  <div id="links" class="links">
+    <a href="not-open.html">尚未開放頁</a>
+    <a href="register.html">企業報名頁</a>
+    <a href="closed.html">報名截止頁</a>
+  </div>
+
+  <small>
+    企業報名期間：115/9/14 10:00 ～ 115/10/16 23:59（臺灣時間）
+  </small>
+</main>
+
+<script>
+(function () {
+  // 使用有時區資訊的 ISO 日期，避免使用者裝置時區不同造成切換錯誤。
+  const openTime = new Date("2026-09-14T10:00:00+08:00");
+  const closeTime = new Date("2026-10-16T23:59:59+08:00");
+  const now = new Date();
+
+  let target = "";
+
+  if (now < openTime) {
+    target = "not-open.html";
+  } else if (now <= closeTime) {
+    target = "register.html";
+  } else {
+    target = "closed.html";
+  }
+
+  // 使用 replace，避免使用者按上一頁又回到轉址頁。
+  setTimeout(function () {
+    window.location.replace(target);
+  }, 350);
+
+  // 若瀏覽器阻擋轉址，2.5 秒後顯示手動入口。
+  setTimeout(function () {
+    document.getElementById("message").textContent =
+      "若頁面沒有自動跳轉，請使用下方按鈕進入。";
+    document.getElementById("links").classList.add("show");
+  }, 2500);
+})();
+</script>
+</body>
+</html>
