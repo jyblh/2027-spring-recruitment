@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>報名成功｜2027 北科大春季徵才</title>
+<meta name="description" content="2027 北科大春季徵才企業報名完成頁">
+<style>
+:root{
+  --aqua:#93dde1;
+  --mint:#d7efb0;
+  --lime:#a9ce3c;
+  --lemon:#f4dd54;
+  --orange:#f3ae36;
+  --green:#2d743d;
+  --green-dark:#1d5730;
+  --ink:#294832;
+  --muted:#738174;
+  --white:#fff;
+  --line:rgba(41,72,50,.13);
+  --shadow:0 22px 65px rgba(34,88,60,.14);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  color:var(--ink);
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 14% 8%,rgba(255,255,255,.7),transparent 22%),
+    radial-gradient(circle at 88% 18%,rgba(255,243,154,.78),transparent 24%),
+    linear-gradient(145deg,var(--aqua),#d8ecad 42%,#fff0a1 75%,#a9e0df);
+}
+.wrap{width:min(1080px,calc(100% - 32px));margin:auto}
+.topbar{padding:22px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em}
+.brand-dot{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--lemon),var(--orange));box-shadow:0 0 0 5px rgba(169,206,60,.17)}
+.hero{padding:42px 0 24px;text-align:center}
+.check{
+  width:82px;height:82px;border-radius:50%;margin:0 auto 22px;
+  display:grid;place-items:center;background:var(--green);color:white;font-size:42px;font-weight:900;
+  box-shadow:0 16px 34px rgba(45,116,61,.24)
+}
+.eyebrow{font-size:13px;font-weight:900;letter-spacing:.18em;color:var(--green)}
+h1{font-size:clamp(38px,6vw,64px);margin:8px 0 14px;letter-spacing:-.05em;color:#fff;text-shadow:0 3px 0 rgba(45,116,61,.14)}
+.lead{max-width:720px;margin:auto;font-size:18px;line-height:1.8;font-weight:650}
+.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  text-decoration:none;border:0;border-radius:16px;padding:14px 20px;
+  font-weight:900;cursor:pointer;transition:.18s
+}
+.btn-primary{background:var(--green);color:#fff;box-shadow:0 12px 28px rgba(45,116,61,.22)}
+.btn-primary:hover{transform:translateY(-2px);background:var(--green-dark)}
+.btn-light{background:rgba(255,255,255,.78);color:var(--green-dark);border:1px solid rgba(45,116,61,.12)}
+.card{
+  background:rgba(255,255,255,.85);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:var(--shadow);
+  border-radius:28px;
+  padding:30px;
+  margin:22px 0;
+}
+.card-head{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:20px}
+.kicker{font-size:12px;font-weight:900;letter-spacing:.16em;color:var(--green);text-transform:uppercase}
+h2{margin:5px 0 0;font-size:30px;letter-spacing:-.03em}
+.note{color:var(--muted);font-size:14px;line-height:1.65;max-width:500px}
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
+.item .label{font-size:12px;color:var(--muted);font-weight:800;margin-bottom:6px}
+.item .value{font-size:17px;font-weight:900;line-height:1.55;word-break:break-word}
+.item.full{grid-column:1/-1}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{padding:7px 10px;border-radius:999px;background:#eff6cf;color:var(--green-dark);font-size:13px;font-weight:850;border:1px solid rgba(45,116,61,.10)}
+.line-card{
+  position:relative;overflow:hidden;
+  background:linear-gradient(140deg,#eff8d4,#fff1a0);
+  border:1px solid rgba(45,116,61,.12);
+  border-radius:24px;padding:26px;
+  display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;
+}
+.line-card:after{
+  content:"";position:absolute;width:170px;height:170px;border-radius:50%;
+  right:-65px;top:-72px;background:rgba(169,206,60,.38)
+}
+.line-card>*{position:relative;z-index:1}
+.line-card h3{font-size:26px;margin:0 0 8px}
+.line-card p{margin:0;line-height:1.75;color:#536954}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
+.step b{display:block;color:var(--green);font-size:18px;margin-bottom:6px}
+.step span{color:var(--muted);font-size:14px;line-height:1.65}
+.empty{display:none;text-align:center;padding:28px;color:var(--muted);line-height:1.8}
+.footer{text-align:center;padding:20px 0 46px;color:#47664d;font-size:13px;line-height:1.8}
+@media(max-width:720px){
+  .summary-grid,.steps{grid-template-columns:1fr}
+  .item.full{grid-column:auto}
+  .line-card{grid-template-columns:1fr}
+  .line-card .btn{width:100%}
+  .card{padding:22px}
+  .card-head{align-items:flex-start;flex-direction:column}
+}
+@media print{
+  body{background:#fff}
+  .topbar,.actions,.line-card,.footer{display:none!important}
+  .card{box-shadow:none;border:1px solid #ddd}
+  h1{color:#222;text-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap brand"><span class="brand-dot"></span><span>2027 春季徵才｜企業專區</span></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="check">✓</div>
+    <div class="eyebrow">REGISTRATION COMPLETED</div>
+    <h1>報名資料已送出</h1>
+    <p class="lead">感謝貴公司報名 2027 北科大春季徵才系列活動。以下為本次填寫資料摘要，建議您先確認內容，並加入 LINE@ 以利後續活動聯繫。</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="https://lin.ee/X7DJJU1" target="_blank" rel="noopener">加入活動 LINE@</a>
+      <button class="btn btn-light" type="button" onclick="window.print()">列印／另存報名摘要</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <div class="kicker">Registration Summary</div>
+        <h2>本次報名資料大綱</h2>
+      </div>
+      <div class="note">此頁顯示您剛才送出的主要資訊，正式資料仍以主辦單位系統收到的內容為準。</div>
+    </div>
+
+    <div id="summary" class="summary-grid">
+      <div class="item"><div class="label">企業名稱</div><div class="value" id="companyName">—</div></div>
+      <div class="item"><div class="label">企業簡稱</div><div class="value" id="companyShortName">—</div></div>
+      <div class="item"><div class="label">統一編號</div><div class="value" id="taxId">—</div></div>
+      <div class="item"><div class="label">產業類別</div><div class="value" id="industry">—</div></div>
+      <div class="item"><div class="label">收據抬頭</div><div class="value" id="receiptTitle">—</div></div>
+      <div class="item"><div class="label">收據統一編號</div><div class="value" id="receiptTaxId">—</div></div>
+      <div class="item"><div class="label">聯絡人</div><div class="value" id="contact">—</div></div>
+      <div class="item"><div class="label">Email</div><div class="value" id="email">—</div></div>
+      <div class="item full"><div class="label">報名活動</div><div class="value" id="activities">—</div></div>
+      <div class="item"><div class="label">就業博覽會攤位</div><div class="value" id="booth">—</div></div>
+      <div class="item"><div class="label">預估活動費用</div><div class="value" id="fee">—</div></div>
+      <div class="item"><div class="label">正職／實習職缺數</div><div class="value" id="jobs">—</div></div>
+      <div class="item"><div class="label">預估總招募人數</div><div class="value" id="hireCount">—</div></div>
+      <div class="item full"><div class="label">需求科系</div><div class="badges" id="departments"></div></div>
+    </div>
+    <div id="empty" class="empty">目前沒有可顯示的報名資料。若您是直接開啟此頁，請由企業報名網站送出表單後再進入。</div>
+  </section>
+
+  <section class="card">
+    <div class="line-card">
+      <div>
+        <h3>請加入活動 LINE@</h3>
+        <p>後續活動提醒、重要時程與即時聯繫將以 LINE@ 為主要聯繫管道之一。建議企業承辦人完成加入，避免漏接活動資訊。</p>
+      </div>
+      <a class="btn btn-primary" href="https://lin.ee/X7DJJU1" target="_blank" rel="noopener">立即加入 LINE@</a>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <div class="kicker">What Happens Next</div>
+        <h2>後續流程</h2>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step"><b>10/21</b><span>錄取通知寄發。未錄取企業不另行通知。</span></div>
+      <div class="step"><b>10/23 前</b><span>錄取企業須完成參與確認及活動公約相關程序。</span></div>
+      <div class="step"><b>12/4 前</b><span>完成繳費及企業名冊資料填寫，才算完成後續參與流程。</span></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  國立臺北科技大學｜研究發展處 實習就業輔導組<br>
+  2027 春季徵才系列活動
+</footer>
+
+<script>
+const raw = sessionStorage.getItem("spring2027Registration");
+const summary = document.getElementById("summary");
+const empty = document.getElementById("empty");
+
+function text(id, value){
+  document.getElementById(id).textContent = value || "—";
+}
+function boothAreaName(code){
+  const map = {
+    T:"T 字展區",
+    SAT:"衛星展區",
+    FIN:"金融管理特區",
+    DESIGN:"文創設計特區",
+    PREMIUM:"一大特區"
+  };
+  return map[code] || "";
+}
+
+if(raw){
+  try{
+    const d = JSON.parse(raw);
+    text("companyName", d.companyName);
+    text("companyShortName", d.companyShortName);
+    text("taxId", d.taxId);
+    text("industry", d.industry);
+    text("receiptTitle", d.receiptTitle);
+    text("receiptTaxId", d.receiptTaxId);
+    text("contact", [d.contactName,d.contactTitle].filter(Boolean).join("／"));
+    text("email", d.email);
+
+    const activities = [];
+    if(d.joinBriefing) activities.push("企業說明會");
+    if(d.joinFair) activities.push("就業博覽會");
+    text("activities", activities.join("＋") || "—");
+
+    if(d.joinFair){
+      const area = boothAreaName(d.boothArea);
+      const qty = d.boothQty ? `｜${d.boothQty} 攤` : "";
+      text("booth", area + qty);
+    }else{
+      text("booth","未報名就業博覽會");
+    }
+
+    text("fee", d.estimatedFee);
+    text("jobs", `正職 ${d.fulltimeCount ?? 0}／實習 ${d.internCount ?? 0}`);
+    text("hireCount", d.hireCount);
+
+    const deptBox = document.getElementById("departments");
+    const depts = Array.isArray(d.departments) ? d.departments : [];
+    if(depts.length){
+      depts.forEach(name=>{
+        const span = document.createElement("span");
+        span.className = "badge";
+        span.textContent = name;
+        deptBox.appendChild(span);
+      });
+    }else{
+      deptBox.textContent = "未填寫";
+    }
+  }catch(e){
+    summary.style.display="none";
+    empty.style.display="block";
+  }
+}else{
+  summary.style.display="none";
+  empty.style.display="block";
+}
+</script>
+</body>
+</html>

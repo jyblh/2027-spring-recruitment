@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>確認參與｜2027 北科大春季徵才</title>
+<style>
+:root{--aqua:#96dfe2;--mint:#d8efb0;--lime:#a9ce3c;--yellow:#f5dd53;--orange:#f2ad34;--green:#2d743d;--deep:#1e5730;--ink:#294832;--muted:#718174;--line:rgba(41,72,50,.14);}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink);background:linear-gradient(145deg,var(--aqua),#d8edaf 44%,#fff0a0 76%,#a9dfdf)}.wrap{width:min(760px,calc(100% - 28px));margin:auto;padding:56px 0}.brand{font-weight:900;margin-bottom:26px}.card{background:rgba(255,255,255,.9);border-radius:28px;padding:32px;box-shadow:0 20px 60px rgba(30,87,48,.14)}.kicker{font-size:12px;font-weight:900;letter-spacing:.18em;color:var(--green)}h1{font-size:clamp(34px,6vw,52px);margin:8px 0 12px}.lead{color:var(--muted);line-height:1.8}.loading{padding:24px 0;color:var(--muted)}.content{display:none}.content.show{display:block}.summary{margin:22px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{padding:15px;border-radius:15px;background:#f8faef}.item small{display:block;color:var(--muted);margin-bottom:5px}button,.btn{width:100%;border:0;border-radius:14px;padding:15px 20px;background:var(--green);color:#fff;font-weight:900;cursor:pointer;text-decoration:none;display:flex;justify-content:center}button:disabled{opacity:.55}.state{display:none;margin-top:18px;padding:16px;border-radius:14px;font-weight:800;line-height:1.7}.state.show{display:block}.success{background:#edf7d1;color:var(--deep)}.error{background:#fff0e3;color:#9b4f22}.next{display:none;margin-top:12px}.next.show{display:block}@media(max-width:620px){.summary{grid-template-columns:1fr}.card{padding:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">2027 春季徵才｜企業專區</div>
+  <main class="card">
+    <div class="kicker">PARTICIPATION CONFIRMATION</div>
+    <h1>確認參與</h1>
+    <p class="lead">請確認下方錄取資訊。送出後，系統將記錄貴公司的參與確認時間。</p>
+
+    <div id="loading" class="loading">正在讀取企業資料…</div>
+
+    <div id="content" class="content">
+      <div class="summary">
+        <div class="item"><small>企業名稱</small><strong id="company">—</strong></div>
+        <div class="item"><small>企業說明會</small><strong id="briefing">—</strong></div>
+        <div class="item"><small>就業博覽會</small><strong id="fair">—</strong></div>
+        <div class="item"><small>預估活動費用</small><strong id="fee">—</strong></div>
+      </div>
+      <button id="confirmBtn" type="button">確認參與本次活動</button>
+      <a id="agreementBtn" class="btn next" href="agreement.html">下一步：上傳活動公約</a>
+    </div>
+
+    <div id="success" class="state success"></div>
+    <div id="error" class="state error"></div>
+  </main>
+</div>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbxlwNTt6HXEQbEBia9iyi56iGUiKs317_7xYYMphlSoYmov5iYRAgvoC0XeAWJPP-7a/exec";
+const params = new URLSearchParams(location.search);
+const id = params.get("id") || "";
+const email = params.get("email") || "";
+
+const loading = document.getElementById("loading");
+const content = document.getElementById("content");
+const errorBox = document.getElementById("error");
+const successBox = document.getElementById("success");
+const confirmBtn = document.getElementById("confirmBtn");
+const agreementBtn = document.getElementById("agreementBtn");
+
+agreementBtn.href =
+  `agreement.html?id=${encodeURIComponent(id)}&email=${encodeURIComponent(email)}`;
+
+async function loadCompany() {
+  try {
+    if (!id || !email) throw new Error("確認連結資料不完整。");
+
+    const res = await fetch(
+      `${API}?action=company&id=${encodeURIComponent(id)}&email=${encodeURIComponent(email)}`
+    );
+    const data = await res.json();
+
+    if (!data.ok) throw new Error(data.message || "無法讀取企業資料。");
+
+    document.getElementById("company").textContent = data.companyName || "—";
+    document.getElementById("briefing").textContent = data.joinBriefing ? "參加" : "未參加";
+    document.getElementById("fair").textContent =
+      data.joinFair
+        ? `${data.boothArea || "參加"}${data.boothQty ? "｜" + data.boothQty + " 攤" : ""}`
+        : "未參加";
+    document.getElementById("fee").textContent = data.estimatedFee || "—";
+
+    if (data.confirmed) {
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = "已完成參與確認";
+      successBox.textContent =
+        data.confirmTime
+          ? `貴公司已完成參與確認。確認時間：${data.confirmTime}`
+          : "貴公司已完成參與確認。";
+      successBox.classList.add("show");
+      agreementBtn.classList.add("show");
+    }
+
+    content.classList.add("show");
+  } catch (err) {
+    errorBox.textContent = err.message || "目前無法讀取資料。";
+    errorBox.classList.add("show");
+  } finally {
+    loading.style.display = "none";
+  }
+}
+
+confirmBtn.addEventListener("click", async () => {
+  confirmBtn.disabled = true;
+  confirmBtn.textContent = "確認中…";
+  errorBox.classList.remove("show");
+
+  try {
+    const res = await fetch(API, {
+      method: "POST",
+      headers: {"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({
+        action: "confirmParticipation",
+        id,
+        email
+      })
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) throw new Error(data.message || "確認失敗。");
+
+    confirmBtn.textContent = "已完成參與確認";
+    successBox.textContent = data.message || "已完成參與確認。";
+    successBox.classList.add("show");
+    agreementBtn.classList.add("show");
+  } catch (err) {
+    confirmBtn.disabled = false;
+    confirmBtn.textContent = "確認參與本次活動";
+    errorBox.textContent = err.message || "目前無法完成確認。";
+    errorBox.classList.add("show");
+  }
+});
+
+loadCompany();
+</script>
+</body>
+</html>
